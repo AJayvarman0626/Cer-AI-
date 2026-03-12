@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- ── Primary Meta ── -->
+    <title>CervAI · Cervical Cell Classifier</title>
+    <meta name="description" content="AI-powered cervical cell morphology classification from Pap smear images. Powered by MobileNetV2 CNN with 97% accuracy across 5 cell classes." />
+    <meta name="keywords" content="cervical cancer, AI, pap smear, cell classification, deep learning, MobileNetV2, medical imaging" />
+    <meta name="author" content="Jothika & Ramya" />
+    <meta name="theme-color" content="#030712" />
+
+    <!-- ── Open Graph ── -->
+    <meta property="og:type"        content="website" />
+    <meta property="og:title"       content="CervAI · Cervical Cell Classifier" />
+    <meta property="og:description" content="AI-powered cervical cell morphology classification from Pap smear images." />
+    <meta property="og:image"       content="/og-image.png" />
+
+    <!-- ── Favicon ── -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="alternate icon" type="image/png" href="/favicon.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <!-- ── Fonts: preconnect first, then load ── -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,400;0,500;1,400&family=Syne:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- ── Prevent flash of unstyled content ── -->
+    <style>
+      html, body, #root {
+        margin: 0;
+        padding: 0;
+        background: #030712;
+        color: #e2e8f0;
+        min-height: 100vh;
+      }
+
+      /* Loading screen shown before React hydrates */
+      #app-loader {
+        position: fixed;
+        inset: 0;
+        background: #030712;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 16px;
+        z-index: 9999;
+        transition: opacity 0.4s ease;
+        font-family: 'DM Mono', monospace;
+      }
+
+      #app-loader.hidden {
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .loader-mark {
+        width: 48px;
+        height: 48px;
+        border: 2px solid #22d3ee;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+        color: #22d3ee;
+        animation: loaderPulse 1.5s ease-in-out infinite;
+      }
+
+      .loader-text {
+        font-size: 11px;
+        color: #334155;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+      }
+
+      .loader-bar-bg {
+        width: 120px;
+        height: 2px;
+        background: #1e293b;
+        border-radius: 2px;
+        overflow: hidden;
+      }
+
+      .loader-bar-fill {
+        height: 100%;
+        background: #22d3ee;
+        border-radius: 2px;
+        animation: loaderBar 1.2s ease-in-out infinite;
+        box-shadow: 0 0 8px #22d3ee88;
+      }
+
+      @keyframes loaderPulse {
+        0%, 100% { box-shadow: 0 0 0 0 rgba(34,211,238,0.3); }
+        50%       { box-shadow: 0 0 0 8px rgba(34,211,238,0.05); }
+      }
+
+      @keyframes loaderBar {
+        0%   { width: 0%;    margin-left: 0; }
+        50%  { width: 80%;   margin-left: 0; }
+        100% { width: 0%;    margin-left: 100%; }
+      }
+    </style>
+  </head>
+
+  <body>
+
+    <!-- Loading screen (hidden once React mounts) -->
+    <div id="app-loader">
+      <div class="loader-mark">⬡</div>
+      <div class="loader-text">CervAI · Initializing</div>
+      <div class="loader-bar-bg">
+        <div class="loader-bar-fill"></div>
+      </div>
+    </div>
+
+    <div id="root"></div>
+
+    <!-- Hide loader once React has mounted -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const loader = document.getElementById('app-loader');
+        const root   = document.getElementById('root');
+
+        const observer = new MutationObserver(function () {
+          if (root.children.length > 0) {
+            loader.classList.add('hidden');
+            setTimeout(() => loader.remove(), 500);
+            observer.disconnect();
+          }
+        });
+
+        observer.observe(root, { childList: true });
+      });
+    </script>
+
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
