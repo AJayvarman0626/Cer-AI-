@@ -174,7 +174,7 @@ function Analyze() {
       setScanPhase(2);
       
       const res = await axios.post(
-  "https://cervical-cancer-api-port-8000.up.railway.app",
+  "https://cervical-cancer-api-port-8000.up.railway.app/predict",
   formData
 );
       const predicted = res.data.prediction;
